@@ -1,11 +1,11 @@
-GET http://localhost:3000/products/4
+GET http://localhost:3000/products/4?kyla=7
 
 ###
 
-POST http://localhost:300/add
+POST http://localhost:3000/add
 Content-Type: application/json
 
 {
-  title: 'test',
-  id: 5
+  "title": "test",
+  "id": 5
 }
