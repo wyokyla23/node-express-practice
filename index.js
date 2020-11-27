@@ -1,10 +1,12 @@
 import Express from 'express'
 import Products from './products.js'
+import todosRoutes from './routes/todos.js'
 
 const app = Express()
 const port = 3000
-app.use(Express.json())
+app.use(Express.json()) //Used to parse json bodies
 app.use(Express.urlencoded({ extended: true }))
+app.use('/todos', todosRoutes)
 
 function middleware(request, response, next) {
   console.log(request.query)
@@ -18,6 +20,7 @@ function middleware(request, response, next) {
 app.get("/products/:id", middleware, (request, response) => {
   // response.send("Hello world")
   // response.send(Products)
+  response.send('Hey there little fella!')
   response.json(Products.find((product) => {
     return parseInt(request.params.id) === product.id
   }))
@@ -30,4 +33,4 @@ app.post('/add', (request, response) => {
 
 
 
-app.listen(port, () => console.log("listening on port" + port))
+app.listen(port, () => console.log(`listening on port ${port}`))

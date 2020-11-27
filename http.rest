@@ -1,4 +1,4 @@
-GET http://localhost:3000/products/4?kyla=7
+GET http://localhost:3000/todos
 
 ###
 
