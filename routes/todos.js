@@ -1,58 +1,16 @@
 import Express from 'express'
-import { v4 as uuidv4 } from 'uuid'
+import { createTodo, getTodos, getTodo, deleteTodo, updateUser } from '../controllers/todos.js'
 
 const router = Express.Router()
 
-//should be const
-let todos = [
-  {
-    task: "shave grandma",
-    id: 1,
-    completed: "false"
-  },
-  {
-    task: "rock around the clock",
-    id: 2,
-    completed: "true"
-  }
-]
+router.get('/', getTodos)
 
-router.get('/', (request, response) => {
-  response.send(todos)
-  console.log(todos)
-})
+router.post('/', createTodo)
 
-router.post('/', (request, response) => {
-  const todo = request.body
-  const todoWithId = { ...todo, id: uuidv4() }
-  todos.push(todoWithId)
-  // const newTodos = [...todos, todoWithId]
-  response.send(todos)
-  // response.send(`${todo} was added to the database.`)
-})
+router.get('/:id', getTodo)
 
-// /todos/2 => request.params { id: 2 }
-router.get('/:id', (request, response) => {
-  const { id } = request.params
-  const foundTodo = todos.find((todo) => todo.id === Number(id))
-  response.send(foundTodo)
-})
+router.delete('/:id', deleteTodo)
 
-router.delete('/:id', (request, response) => {
-  const { id } = request.params
-  // const updatedTodos = todos.filter((todo) => todo.id != Number(id))
-  todos = todos.filter((todo) => todo.id != Number(id))
-  response.send(todos)
-})
-
-router.patch('/:id', (request, response) => {
-  const { id } = request.params
-  const { task, completed } = request.body
-  const foundTodo = todos.find((todo) => todo.id === Number(id))
-  if (task) foundTodo.task = task
-  if (completed) foundTodo.completed = completed
-
-  response.send(foundTodo)
-})
+router.patch('/:id', updateUser)
 
 export default router
