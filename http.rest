@@ -1,11 +1,11 @@
-GET http://localhost:3000/todos
+GET http://localhost:3000/todos/1
 
 ###
 
-POST http://localhost:3000/add
+POST http://localhost:3000/todos
 Content-Type: application/json
 
 {
-  "title": "test",
-  "id": 5
+  "task": "sing",
+  "completed": "true"
 }
