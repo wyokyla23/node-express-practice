@@ -1,4 +1,4 @@
-GET http://localhost:3000/todos/1
+GET http://localhost:3000/todos/
 
 ###
 
@@ -7,5 +7,18 @@ Content-Type: application/json
 
 {
   "task": "sing",
+  "completed": "true"
+}
+
+###
+
+DELETE http://localhost:3000/todos/2
+
+###
+
+PATCH http://localhost:3000/todos/2
+Content-Type: application/json
+
+{
   "completed": "true"
 }
