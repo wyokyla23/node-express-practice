@@ -1,17 +1,17 @@
-const { v4 } = require('uuid')
+const { uuidv4 } = require('uuid')
 const client = require('../adapters/postgres')
 // should be const
 let todos = [
   {
-    task: "shave grandma",
+    task: 'shave grandma',
     id: '76788758hb87b78',
-    completed: "false"
+    completed: 'false',
   },
   {
-    task: "rock around the clock",
+    task: 'rock around the clock',
     id: 'uyhughjg',
-    completed: "true"
-  }
+    completed: 'true',
+  },
 ]
 
 exports.createTodo = (request, response) => {
@@ -23,15 +23,14 @@ exports.createTodo = (request, response) => {
   // response.send(`${todo} was added to the database.`)
 }
 
-// client.query('SELECT * FROM todos', (err, res) => {
-//   console.log(err, res)
-//   client.end()
-// })
 // /todos/2 => request.params { id: 2 }
-exports.getTodos = (request, response) => {
-  response.send(todos)
-  console.log(todos)
-}
+exports.getTodos = () => client.query('SELECT * FROM todos', (err, res) => {
+  if (err) {
+    console.log(err.stack)
+  } else {
+    console.log(res.fields)
+  }
+})
 
 exports.getTodo = (request, response) => {
   const { id } = request.params
