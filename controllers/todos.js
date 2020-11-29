@@ -1,20 +1,20 @@
-import { v4 as uuidv4 } from 'uuid'
-
-//should be const
+const { v4 } = require('uuid')
+const client = require('../adapters/postgres')
+// should be const
 let todos = [
   {
     task: "shave grandma",
-    id: 1,
+    id: '76788758hb87b78',
     completed: "false"
   },
   {
     task: "rock around the clock",
-    id: 2,
+    id: 'uyhughjg',
     completed: "true"
   }
 ]
 
-export const createTodo = (request, response) => {
+exports.createTodo = (request, response) => {
   const todo = request.body
   const todoWithId = { ...todo, id: uuidv4() }
   todos.push(todoWithId)
@@ -23,29 +23,33 @@ export const createTodo = (request, response) => {
   // response.send(`${todo} was added to the database.`)
 }
 
+// client.query('SELECT * FROM todos', (err, res) => {
+//   console.log(err, res)
+//   client.end()
+// })
 // /todos/2 => request.params { id: 2 }
-export const getTodos = (request, response) => {
+exports.getTodos = (request, response) => {
   response.send(todos)
   console.log(todos)
 }
 
-export const getTodo = (request, response) => {
+exports.getTodo = (request, response) => {
   const { id } = request.params
-  const foundTodo = todos.find((todo) => todo.id === Number(id))
+  const foundTodo = todos.find((todo) => todo.id === id)
   response.send(foundTodo)
 }
 
-export const deleteTodo = (request, response) => {
+exports.deleteTodo = (request, response) => {
   const { id } = request.params
   // const updatedTodos = todos.filter((todo) => todo.id != Number(id))
-  todos = todos.filter((todo) => todo.id != Number(id))
+  todos = todos.filter((todo) => todo.id != id)
   response.send(todos)
 }
 
-export const updateUser = (request, response) => {
+exports.updateUser = (request, response) => {
   const { id } = request.params
   const { task, completed } = request.body
-  const foundTodo = todos.find((todo) => todo.id === Number(id))
+  const foundTodo = todos.find((todo) => todo.id === id)
   if (task) foundTodo.task = task
   if (completed) foundTodo.completed = completed
 

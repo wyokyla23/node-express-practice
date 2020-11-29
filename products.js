@@ -12,4 +12,4 @@ const Products = [
     "name": "Shoe"
   }
 ]
-export default Products
+module.exports = Products

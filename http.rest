@@ -1,22 +1,22 @@
-GET http://localhost:3000/todos/
+GET http://localhost:4000/todos/
 
 ###
 
-POST http://localhost:3000/todos
+POST http://localhost:4000/todos
 Content-Type: application/json
 
 {
-  "task": "sing",
-  "completed": "true"
+  "task": "dance",
+  "completed": "false"
 }
 
 ###
 
-DELETE http://localhost:3000/todos/2
+DELETE http://localhost:4000/todos/08dfa68d-6c8d-42ca-8fae-633900bf36f8
 
 ###
 
-PATCH http://localhost:3000/todos/1
+PATCH http://localhost:4000/todos/1
 Content-Type: application/json
 
 {
