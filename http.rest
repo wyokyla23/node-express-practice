@@ -1,4 +1,4 @@
-GET http://localhost:4000/todos/1635b0b1-4b8b-4836-8b76-aefa39bd43f0
+GET http://localhost:4000/todos/
 
 ###
 
@@ -6,13 +6,13 @@ POST http://localhost:4000/todos
 Content-Type: application/json
 
 {
-  "task": "jump",
-  "completed": "true"
+  "task": "brush hair",
+  "completed": "false"
 }
 
 ###
 
-DELETE http://localhost:4000/todos/08dfa68d-6c8d-42ca-8fae-633900bf36f8
+DELETE http://localhost:4000/todos/ae8d305b-d446-4fb8-939a-fc3b039b2625
 
 ###
 

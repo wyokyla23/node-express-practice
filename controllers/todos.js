@@ -1,7 +1,7 @@
 const { v4: uuidv4 } = require('uuid')
 const client = require('../adapters/postgres')
 // should be const
-let todos = [
+const todos = [
   {
     task: 'shave grandma',
     id: '76788758hb87b78',
@@ -36,9 +36,9 @@ exports.getTodos = async (_, response) => {
     .catch((error) => console.log(error.stack))
 }
 
+// const foundTodo = todos.find((todo) => todo.id === id)
 exports.getTodo = async (request, response) => {
   const { id } = request.params
-  // const foundTodo = todos.find((todo) => todo.id === id)
   const query = {
     name: 'fetch-todo',
     text: 'SELECT * FROM todos WHERE task_id = $1',
@@ -49,11 +49,17 @@ exports.getTodo = async (request, response) => {
     .catch((error) => console.log(error.stack))
 }
 
-exports.deleteTodo = (request, response) => {
+// const updatedTodos = todos.filter((todo) => todo.id != Number(id))
+exports.deleteTodo = async (request, response) => {
   const { id } = request.params
-  // const updatedTodos = todos.filter((todo) => todo.id != Number(id))
-  todos = todos.filter((todo) => todo.id != id)
-  response.send(todos)
+  const query = {
+    name: 'delete-todo',
+    text: 'DELETE FROM todos WHERE task_id = $1',
+    values: [id],
+  }
+  const value = await client.query(query)
+  // .then((res) => response.send(res.rows))
+  // .catch((error) => console.log(error.stack))
 }
 
 exports.updateUser = (request, response) => {
