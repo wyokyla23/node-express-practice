@@ -1,4 +1,4 @@
-const { uuidv4 } = require('uuid')
+const { v4: uuidv4 } = require('uuid')
 const client = require('../adapters/postgres')
 // should be const
 let todos = [
@@ -17,25 +17,36 @@ let todos = [
 exports.createTodo = (request, response) => {
   const todo = request.body
   const todoWithId = { ...todo, id: uuidv4() }
-  todos.push(todoWithId)
-  // const newTodos = [...todos, todoWithId]
-  response.send(todos)
-  // response.send(`${todo} was added to the database.`)
+  const { id, task, completed } = todoWithId
+
+  const query = {
+    text: 'INSERT INTO todos(task_id, task, completed) VALUES($1, $2, $3)',
+    values: [id, task, completed],
+  }
+
+  client.query(query)
+    .then((res) => console.log(res))
+    .catch((error) => console.log(error.stack))
 }
 
 // /todos/2 => request.params { id: 2 }
-exports.getTodos = () => client.query('SELECT * FROM todos', (err, res) => {
-  if (err) {
-    console.log(err.stack)
-  } else {
-    console.log(res.fields)
-  }
-})
+exports.getTodos = async (_, response) => {
+  const value = await client.query('SELECT * FROM todos')
+    .then((res) => response.send(res.rows))
+    .catch((error) => console.log(error.stack))
+}
 
-exports.getTodo = (request, response) => {
+exports.getTodo = async (request, response) => {
   const { id } = request.params
-  const foundTodo = todos.find((todo) => todo.id === id)
-  response.send(foundTodo)
+  // const foundTodo = todos.find((todo) => todo.id === id)
+  const query = {
+    name: 'fetch-todo',
+    text: 'SELECT * FROM todos WHERE task_id = $1',
+    values: [id],
+  }
+  const value = await client.query(query)
+    .then((res) => response.send(res.rows))
+    .catch((error) => console.log(error.stack))
 }
 
 exports.deleteTodo = (request, response) => {

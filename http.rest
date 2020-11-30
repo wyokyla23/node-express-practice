@@ -1,4 +1,4 @@
-GET http://localhost:4000/todos/
+GET http://localhost:4000/todos/1635b0b1-4b8b-4836-8b76-aefa39bd43f0
 
 ###
 
@@ -6,8 +6,8 @@ POST http://localhost:4000/todos
 Content-Type: application/json
 
 {
-  "task": "dance",
-  "completed": "false"
+  "task": "jump",
+  "completed": "true"
 }
 
 ###
