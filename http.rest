@@ -12,13 +12,16 @@ Content-Type: application/json
 
 ###
 
-DELETE http://localhost:4000/todos/ae8d305b-d446-4fb8-939a-fc3b039b2625
+DELETE http://localhost:4000/todos/46b77e24-96ce-403a-be08-e4559d950b58
 
 ###
 
-PATCH http://localhost:4000/todos/1
+PATCH http://localhost:4000/todos/ae1d9ebc-28e4-4606-a05f-9addcf6a5919
 Content-Type: application/json
 
+# {
+#   "completed": "true"
+# }
 {
-  "completed": "true"
+  "task": "sing a song"
 }

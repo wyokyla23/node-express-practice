@@ -1,20 +1,7 @@
 const { v4: uuidv4 } = require('uuid')
 const client = require('../adapters/postgres')
-// should be const
-const todos = [
-  {
-    task: 'shave grandma',
-    id: '76788758hb87b78',
-    completed: 'false',
-  },
-  {
-    task: 'rock around the clock',
-    id: 'uyhughjg',
-    completed: 'true',
-  },
-]
 
-exports.createTodo = (request, response) => {
+exports.createTodo = async (request, response) => {
   const todo = request.body
   const todoWithId = { ...todo, id: uuidv4() }
   const { id, task, completed } = todoWithId
@@ -24,19 +11,15 @@ exports.createTodo = (request, response) => {
     values: [id, task, completed],
   }
 
-  client.query(query)
-    .then((res) => console.log(res))
-    .catch((error) => console.log(error.stack))
+  await client.query(query)
+  response.send(todoWithId)
 }
 
-// /todos/2 => request.params { id: 2 }
 exports.getTodos = async (_, response) => {
   const value = await client.query('SELECT * FROM todos')
-    .then((res) => response.send(res.rows))
-    .catch((error) => console.log(error.stack))
+  response.send(value.rows)
 }
 
-// const foundTodo = todos.find((todo) => todo.id === id)
 exports.getTodo = async (request, response) => {
   const { id } = request.params
   const query = {
@@ -45,11 +28,9 @@ exports.getTodo = async (request, response) => {
     values: [id],
   }
   const value = await client.query(query)
-    .then((res) => response.send(res.rows))
-    .catch((error) => console.log(error.stack))
+  response.send(value.rows)
 }
 
-// const updatedTodos = todos.filter((todo) => todo.id != Number(id))
 exports.deleteTodo = async (request, response) => {
   const { id } = request.params
   const query = {
@@ -57,17 +38,28 @@ exports.deleteTodo = async (request, response) => {
     text: 'DELETE FROM todos WHERE task_id = $1',
     values: [id],
   }
-  const value = await client.query(query)
-  // .then((res) => response.send(res.rows))
-  // .catch((error) => console.log(error.stack))
+  await client.query(query)
+  response.send(id)
 }
 
-exports.updateUser = (request, response) => {
+exports.updateTodo = async (request, response) => {
   const { id } = request.params
   const { task, completed } = request.body
-  const foundTodo = todos.find((todo) => todo.id === id)
-  if (task) foundTodo.task = task
-  if (completed) foundTodo.completed = completed
-
-  response.send(foundTodo)
+  const queryTask = {
+    name: 'update-task',
+    text: 'UPDATE todos SET task = $1 WHERE task_id = $2',
+    values: [task, id],
+  }
+  const queryCompleted = {
+    name: 'update-completed',
+    text: 'UPDATE todos SET completed = $1 WHERE task_id = $2',
+    values: [completed, id],
+  }
+  if (task) {
+    const value = await client.query(queryTask)
+    response.send(value.rows)
+  } else if (completed) {
+    const value = await client.query(queryCompleted)
+    response.send(value.rows)
+  }
 }
