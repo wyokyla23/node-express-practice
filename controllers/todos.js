@@ -31,6 +31,15 @@ exports.getTodo = async (request, response) => {
   response.send(value.rows)
 }
 
+exports.deleteTodos = async (request, response) => {
+  const query = {
+    name: 'delete-todos',
+    text: 'DELETE FROM todos',
+  }
+  await client.query(query)
+  response.send()
+}
+
 exports.deleteTodo = async (request, response) => {
   const { id } = request.params
   const query = {

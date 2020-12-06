@@ -22,6 +22,7 @@ Content-Type: application/json
 {
   "completed": "false"
 }
-# {
-#   "task": "sing a song"
-# }
+
+###
+
+DELETE http://localhost:4000/todos/
