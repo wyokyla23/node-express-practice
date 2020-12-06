@@ -1,5 +1,6 @@
 require('dotenv').config();
 const Express = require('express');
+const cors = require('cors')
 const todosRoutes = require('./routes/todos');
 const client = require('./adapters/postgres');
 
@@ -8,6 +9,7 @@ const port = 4000;
 
 app.use(Express.json()); // Used to parse json bodies
 app.use(Express.urlencoded({ extended: true }));
+app.use(cors())
 app.use('/todos', todosRoutes);
 
 // client.query('SELECT * FROM todos', (err, res) => {

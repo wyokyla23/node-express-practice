@@ -16,12 +16,12 @@ DELETE http://localhost:4000/todos/46b77e24-96ce-403a-be08-e4559d950b58
 
 ###
 
-PATCH http://localhost:4000/todos/ae1d9ebc-28e4-4606-a05f-9addcf6a5919
+PATCH http://localhost:4000/todos/173b834b-0331-4516-93d5-83e5321fc682
 Content-Type: application/json
 
-# {
-#   "completed": "true"
-# }
 {
-  "task": "sing a song"
+  "completed": "false"
 }
+# {
+#   "task": "sing a song"
+# }
