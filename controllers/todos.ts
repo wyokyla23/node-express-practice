@@ -1,7 +1,9 @@
-const { v4: uuidv4 } = require('uuid')
-const client = require('../adapters/postgres')
+import { Request, Response } from "express"
 
-exports.createTodo = async (request, response) => {
+import { uuid as uuidv4 } from 'uuidv4'
+import client from '../adapters/postgres'
+
+export const createTodo = async (request: Request, response: Response) => {
   const todo = request.body
   const todoWithId = { ...todo, id: uuidv4() }
   const { id, task, completed } = todoWithId
@@ -15,12 +17,12 @@ exports.createTodo = async (request, response) => {
   response.send(todoWithId)
 }
 
-exports.getTodos = async (_, response) => {
+export const getTodos = async (_: Request, response: Response) => {
   const value = await client.query('SELECT * FROM todos')
   response.send(value.rows)
 }
 
-exports.getTodo = async (request, response) => {
+export const getTodo = async (request: Request, response: Response) => {
   const { id } = request.params
   const query = {
     name: 'fetch-todo',
@@ -31,7 +33,7 @@ exports.getTodo = async (request, response) => {
   response.send(value.rows)
 }
 
-exports.deleteTodos = async (request, response) => {
+export const deleteTodos = async (request: Request, response: Response) => {
   const query = {
     name: 'delete-todos',
     text: 'DELETE FROM todos',
@@ -40,7 +42,7 @@ exports.deleteTodos = async (request, response) => {
   response.send()
 }
 
-exports.deleteTodo = async (request, response) => {
+export const deleteTodo = async (request: Request, response: Response) => {
   const { id } = request.params
   const query = {
     name: 'delete-todo',
@@ -51,7 +53,7 @@ exports.deleteTodo = async (request, response) => {
   response.send(id)
 }
 
-exports.updateTodo = async (request, response) => {
+export const updateTodo = async (request: Request, response: Response) => {
   const { id } = request.params
   const { task, completed } = request.body
   const queryTask = {

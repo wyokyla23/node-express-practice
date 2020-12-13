@@ -1,13 +1,13 @@
-const { Client } = require('pg')
+import { Client } from 'pg'
 
 const client = new Client({
   user: process.env.DB_USER,
   host: process.env.DB_HOST,
   database: process.env.DB_DATABASE,
   password: process.env.DB_PASSWORD,
-  port: process.env.DB_PORT,
+  port: process.env.DB_PORT ? Number(process.env.DB_PORT) : undefined
 })
 
 client.connect()
 
-module.exports = client
+export default client
